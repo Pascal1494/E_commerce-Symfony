@@ -12,8 +12,8 @@ class HomeController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function homepage(ProductRepository $productRepository): Response
     {
-        $product = $productRepository->findAll();
-        dump($product);
+        $product = $productRepository->findby([], ['name' => 'DESC']);
+        // dump($product);
 
 
 
