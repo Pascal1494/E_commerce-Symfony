@@ -27,6 +27,11 @@ class Product
         return $this->id;
     }
 
+    public function getUppercaseName(): string
+    {
+        return strtoupper($this->name);
+    }
+
     public function getName(): ?string
     {
         return $this->name;
