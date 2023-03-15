@@ -14,17 +14,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function homepage(EntityManagerInterface $em): Response
     {
-        $product = new Product;
-
-        $product->setName('table en plastique')
-            ->setPrice(3000)
-            ->setSlug('table-en-plastique');
-
-        $em->persist($product);
-        $em->flush();
-
-        dd($product);
-
+        
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
