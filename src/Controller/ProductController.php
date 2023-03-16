@@ -34,6 +34,9 @@ class ProductController extends AbstractController
     #[Route('/{category_slug}/{slug}', name: 'product_show')]
     public function show($slug, ProductRepository $productRepository, UrlGeneratorInterface $urlGenerator)
     {
+        // dd($urlGenerator->generate('product_category', [
+        //     'slug' => $slug
+        // ]));
         $product = $productRepository->findOneBy([
             'slug' => $slug
         ]);
@@ -43,7 +46,8 @@ class ProductController extends AbstractController
         }
 
         return $this->render('product/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            // 'urlGenerator' => $urlGenerator
         ]);
     }
 }
