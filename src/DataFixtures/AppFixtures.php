@@ -7,10 +7,17 @@ use App\Entity\Product;
 use Liior\Faker\Prices;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 // use Doctrine\DBAL\Driver\IBMDB2\Exception\Factory;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(
+        SluggerInterface $slugger
+    ) {
+        $this->slugger = $slugger;
+    }
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr-FR');
@@ -22,7 +29,7 @@ class AppFixtures extends Fixture
             $product
                 ->setName($faker->productName)
                 ->setPrice($faker->price(4000, 20000))
-                ->setSlug($faker->slug());
+                ->setSlug(strtolower($this->slugger->slug($product->getName())));
 
             $manager->persist($product);
         }
