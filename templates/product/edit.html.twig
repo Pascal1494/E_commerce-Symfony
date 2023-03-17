@@ -1,0 +1,22 @@
+<h1>Produit:
+		{{product.name}}
+		({{product.price /100}}
+		€ )</h1>
+	<div class="row">
+
+		<div class="col-4">
+			<img class="img-fluid" src="{{product.mainPicture}}" alt="Image de {{product.name}}">
+		</div>
+		<div class="col">
+			<span class="badge text-bg-info">{{product.category.name}}</span>
+			<p>
+				{{product.shortDescription}}
+			</p>
+			<a class="btn btn-success btn-lg" href="http://">
+				<i class="fas fa-shopping-cart"></i>
+				Ajouter au panier</a>
+		</div>
+
+
+	</div>
+{% endblock %}
