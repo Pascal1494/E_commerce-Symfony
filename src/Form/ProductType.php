@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Product;
 use App\Entity\Category;
-use Doctrine\DBAL\Types\TextType;
+use App\Form\DataTransformer\CentimesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -28,7 +28,8 @@ class ProductType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Le prix de vente de votre produit',
-                'attr' => ['placeholder' => 'Tapez votre prix de vente de votre produit TTC et en €']
+                'attr' => ['placeholder' => 'Tapez votre prix de vente de votre produit TTC et en €'],
+                'divisor' => 100
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'L\'image de votre produit',
@@ -42,8 +43,46 @@ class ProductType extends AbstractType
                 'choice_label' => function (Category $category) {
                     return strtoupper($category->getName());
                 }
-
             ]);
+
+        // $builder->get('price')->addModelTransformer(new CentimesTransformer);
+
+        // $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+        //     $product = $event->getData();
+
+        //     if ($product->getPrice() !== null) {
+        //         $product->setPrice($product->getPrice() * 100);
+        //     }
+        //     // dd($product);
+        // });
+
+        // $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        //     $form = $event->getForm();
+
+        //     /**@var Product*/
+        //     $product = $event->getData();
+
+        //     if (
+        //         $product->getPrice() !== null
+        //     ) {
+        //         $product->setPrice($product->getPrice() / 100);
+        //     }
+        // dd($product);
+
+        // if ($product->getId() === null) {
+        //     $form->add('category', EntityType::class, [
+        //     'label' => 'La catégorie de votre produit',
+        //     'attr' => [],
+        //     'placeholder' => '-- Choisir la catégorie de votre produit --',
+        //     'class' => Category::class,
+        //     'choice_label' => function (Category $category) {
+        //         return strtoupper($category->getName());
+        //     }
+        // ]);
+        // }
+
+
+        // });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
