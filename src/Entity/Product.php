@@ -6,6 +6,7 @@ use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
@@ -15,9 +16,16 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    // #[Assert\NotBlank(message: 'Le produit ne peut pas être vide')]
+    // // #[Assert\Length(min = 3, max = 255, minMessage = "Le nom du produit doit avoir au moins trois caractères", maxMessage = "le nom est trop grand!")]
+    // #[Assert\Length(
+    //     min: 3,
+    //     max: 255,
+    // )]
     private ?string $name = null;
 
     #[ORM\Column]
+    // #[Assert\NotBlank(message: 'This value should not be blank')]
     private ?int $price = null;
 
     #[ORM\Column(length: 255)]
@@ -31,6 +39,14 @@ class Product
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $shortDescription = null;
+
+    // public static function loadValidatorMetadata(ClassMetadata $Metadata)
+    // {
+    //     $Metadata->addPropertyConstraints('name', [
+    //         new NotBlank(['message' => "le nom du produit est obligatoire"]),
+    //         new Length(['min' => 3, 'minMessage' => "Le produit doit contenir au moins trois lettres"])
+    //     ]);
+    // }
 
     public function getId(): ?int
     {
@@ -47,7 +63,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -59,7 +75,7 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
 
@@ -71,7 +87,7 @@ class Product
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 

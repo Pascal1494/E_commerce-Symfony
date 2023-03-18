@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Form\DataTransformer\CentimesTransformer;
+use phpDocumentor\Reflection\PseudoTypes\False_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,14 +14,17 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TypeTextType::class, [
-            'label' => 'Le nom du produit',
-            'attr' => ['placeholder' => 'Tapez le nom de votre produit']
+            'label' =>  'Le nom du produit',
+            'attr' => ['placeholder' => 'Tapez le nom de votre produit'],
+            'required' => False,
+            'constraints' => new NotBlank(['message' => "Validation du formulaire: le nom du produit ne peut pas être vide !"])
         ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'La description rapide du produit',
@@ -29,7 +33,9 @@ class ProductType extends AbstractType
             ->add('price', MoneyType::class, [
                 'label' => 'Le prix de vente de votre produit',
                 'attr' => ['placeholder' => 'Tapez votre prix de vente de votre produit TTC et en €'],
-                'divisor' => 100
+                'divisor' => 100,
+                'required' => False,
+                'constraints' => new NotBlank(['message' => "Validation du formulaire: le prix du produit ne peut pas être vide !"])
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'L\'image de votre produit',

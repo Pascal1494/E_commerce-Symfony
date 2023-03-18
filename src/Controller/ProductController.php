@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
@@ -43,9 +44,9 @@ class ProductController extends AbstractController
             'slug' => $slug
         ]);
 
-        if (!$product) {
-            throw $this->createNotFoundException("Le produit demandé n'existe pas !");
-        }
+        // if (!$product) {
+        //     throw $this->createNotFoundException("Le produit demandé n'existe pas !");
+        // }
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
@@ -54,8 +55,17 @@ class ProductController extends AbstractController
     }
 
     #[Route('/admin/product/{id}/edit', name: 'product_edit')]
-    public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slug)
+    public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slug, ValidatorInterface $validator)
     {
+        $product = new Product;
+        // $resultat = $validator->validate($product);
+
+        // if ($resultat->count() > 0) {
+        //     dd("Il y a des erreurs", $resultat);
+        // }
+        //     dd("Tout va bien", $resultat);
+
+
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
